@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Elite Kitchen</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0a;--card:#161616;--line:#2a2a2a;--red:#d71920;--red2:#ff3b43;--text:#fff;--mute:#a8a8a8;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0a0a0a;--card:#161616;--text:#fff}}
+:root[data-theme="dark"]{--bg:#0a0a0a;--card:#161616;--text:#fff}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,sans-serif;line-height:1.5;min-height:100vh}
+h1,h2,h3,.serif{font-family:'Playfair Display',Georgia,serif}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;justify-content:space-between;align-items:center;padding:14px 5vw;background:rgba(10,10,10,.92);backdrop-filter:blur(8px);border-bottom:2px solid var(--red)}
+.logo{font-family:'Playfair Display',Georgia,serif;font-weight:800;font-size:1.4rem;letter-spacing:.12em}.logo b{color:var(--red)}
+.btn{background:var(--red);color:#fff;border:0;padding:11px 20px;border-radius:6px;font:600 .95rem Inter,sans-serif;cursor:pointer}
+.btn:hover{background:var(--red2)}.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--text)}.btn.ghost:hover{border-color:var(--red)}
+.btn.sm{padding:7px 12px;font-size:.8rem}
+.hero{text-align:center;padding:14vh 6vw 10vh;background:radial-gradient(ellipse at 50% 0,#3a0609 0,var(--bg) 65%)}
+.hero small{color:var(--red2);letter-spacing:.4em;font-size:.8rem}
+.hero h1{font-size:clamp(2.6rem,9vw,6rem);letter-spacing:.06em;margin:14px 0}.hero h1 span{color:var(--red)}
+.hero p{color:var(--mute);max-width:520px;margin:0 auto 28px}
+section{padding:60px 5vw 100px;max-width:1200px;margin:auto}
+h2{font-size:2rem;margin-bottom:6px}.bar{width:60px;height:3px;background:var(--red);margin-bottom:28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px}
+.dish{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:flex;flex-direction:column;transition:.2s}
+.dish:hover{border-color:var(--red);transform:translateY(-3px)}
+.dish img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#222}
+.dish .in{padding:14px 16px 18px;display:flex;flex-direction:column;gap:10px;flex:1}
+.dish h3{font-size:1.15rem}.price{color:var(--red2);font-weight:600}
+.dish .row{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.empty{color:var(--mute);border:1px dashed var(--line);border-radius:10px;padding:40px;text-align:center}
+footer{border-top:1px solid var(--line);text-align:center;padding:30px 5vw 90px;color:var(--mute);font-size:.85rem}
+#cartBtn span{background:#fff;color:var(--red);border-radius:20px;padding:1px 8px;margin-left:6px;font-size:.8rem}
+.shield{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;width:48px;height:48px;border-radius:50%;background:var(--red);border:2px solid #fff;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 18px rgba(215,25,32,.5)}
+.shield:hover{background:var(--red2)}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:50;display:none;align-items:center;justify-content:center;padding:16px}
+.ov.on{display:flex}
+.modal{background:var(--card);border:1px solid var(--red);border-radius:12px;width:100%;max-width:440px;max-height:90vh;overflow:auto;padding:24px}
+.modal.wide{max-width:860px}
+.modal h3{font-size:1.4rem;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center}
+.x{background:none;border:0;color:var(--mute);font-size:1.6rem;cursor:pointer}
+label{display:block;font-size:.82rem;color:var(--mute);margin:12px 0 5px}
+input[type=text],input[type=password],input[type=number],input[type=tel],textarea{width:100%;background:#0d0d0d;border:1px solid var(--line);color:#fff;padding:11px;border-radius:6px;font:inherit}
+input:focus,textarea:focus{outline:none;border-color:var(--red)}
+.chk{display:flex;gap:8px;align-items:center;margin:14px 0;color:var(--text);font-size:.9rem}
+.chk input{accent-color:var(--red);width:17px;height:17px}
+.err{color:var(--red2);font-size:.85rem;min-height:1.2em;margin-top:6px}
+.tabs{display:flex;gap:6px;margin-bottom:16px;border-bottom:1px solid var(--line)}
+.tab{background:none;border:0;color:var(--mute);padding:10px 14px;cursor:pointer;font:600 .92rem Inter,sans-serif;border-bottom:2px solid transparent}
+.tab.on{color:#fff;border-color:var(--red)}
+.li{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.li img{width:56px;height:56px;border-radius:6px;object-fit:cover}.li .g{flex:1}
+.ord{border:1px solid var(--line);border-radius:8px;padding:14px;margin-bottom:12px}
+.ord.pending{border-left:4px solid var(--red)}.ord.confirmed{border-left:4px solid #fff;opacity:.8}
+.tag{font-size:.72rem;padding:2px 9px;border-radius:20px;font-weight:600}
+.tag.pending{background:var(--red);color:#fff}.tag.confirmed{background:#fff;color:#000}
+.q{display:flex;gap:6px;align-items:center}.q button{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:none;color:#fff;cursor:pointer}
+.note{font-size:.78rem;color:var(--mute);margin-top:10px}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#fff;color:#000;padding:12px 20px;border-radius:8px;font-weight:600;z-index:90;display:none}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">ELITE <b>KITCHEN</b></div>
+  <button class="btn" id="cartBtn">Cart<span id="cartN">0</span></button>
+</header>
+
+<div class="hero">
+  <small>FINE DINING · FRESHLY PREPARED</small>
+  <h1>ELITE <span>KITCHEN</span></h1>
+  <p>Bold flavours, crafted with passion. Pick your favourites from the menu and we’ll have them ready for you.</p>
+  <a href="#menu"><button class="btn">View Menu</button></a>
+</div>
+
+<section id="menu">
+  <h2>Our Menu</h2><div class="bar"></div>
+  <div class="grid" id="menuGrid"></div>
+</section>
+
+<footer>© Elite Kitchen · All rights reserved</footer>
+
+<div class="shield" id="shield" title="Admin" aria-label="Admin">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"><path d="M12 2 4 5v6c0 5 3.4 9.3 8 11 4.6-1.7 8-6 8-11V5l-8-3z"/><path d="m9 12 2 2 4-4" stroke-linecap="round"/></svg>
+</div>
+
+<!-- Cart -->
+<div class="ov" id="cartOv"><div class="modal">
+  <h3>Your Order <button class="x" data-close>×</button></h3>
+  <div id="cartList"></div>
+  <div id="checkout">
+    <label>Your name</label><input type="text" id="cName">
+    <label>Phone number</label><input type="tel" id="cPhone">
+    <label>Table number or delivery address</label><input type="text" id="cWhere">
+    <label>Note (optional)</label><textarea id="cNote" rows="2"></textarea>
+    <div class="err" id="cErr"></div>
+    <button class="btn" style="width:100%;margin-top:8px" id="placeBtn">Place Order</button>
+  </div>
+</div></div>
+
+<!-- Login -->
+<div class="ov" id="loginOv"><div class="modal">
+  <h3>Admin Access <button class="x" data-close>×</button></h3>
+  <label>Password</label><input type="password" id="pw" autocomplete="off">
+  <label class="chk"><input type="checkbox" id="remember"> Remember this device</label>
+  <div class="err" id="pwErr"></div>
+  <button class="btn" style="width:100%" id="loginBtn">Enter</button>
+</div></div>
+
+<!-- Admin -->
+<div class="ov" id="adminOv"><div class="modal wide">
+  <h3>Admin Panel <span><button class="btn ghost sm" id="logout">Log out</button> <button class="x" data-close>×</button></span></h3>
+  <div class="tabs">
+    <button class="tab on" data-tab="add">Add Food</button>
+    <button class="tab" data-tab="items">Menu Items</button>
+    <button class="tab" data-tab="orders">Orders <span id="pendN"></span></button>
+  </div>
+  <div id="t-add">
+    <label>Food picture</label><input type="file" id="fImg" accept="image/*">
+    <img id="prev" style="display:none;width:140px;border-radius:8px;margin-top:10px" alt="">
+    <label>Name</label><input type="text" id="fName">
+    <label>Price (₦)</label><input type="number" id="fPrice" min="0" step="any">
+    <div class="err" id="fErr"></div>
+    <button class="btn" id="addBtn" style="margin-top:8px">Add to Menu</button>
+  </div>
+  <div id="t-items" style="display:none"></div>
+  <div id="t-orders" style="display:none"></div>
+  <div class="note" id="modeNote"></div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+const PASS='group6project', $=id=>document.getElementById(id);
+const money=n=>'₦'+Number(n).toLocaleString();
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let menu=[], orders=[], cart={}, db=null, imgData='';
+const LS={get(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+
+/* ---------- data layer: Firebase Firestore ---------- */
+const firebaseConfig={
+  apiKey:"AIzaSyA_5wMOAIIRuEm5E0wjiD654LSkrExSfZY",
+  authDomain:"elite-kitchen.firebaseapp.com",
+  projectId:"elite-kitchen",
+  storageBucket:"elite-kitchen.firebasestorage.app",
+  messagingSenderId:"384523583943",
+  appId:"1:384523583943:web:5e350e36f74f1f62a319e2"
+};
+firebase.initializeApp(firebaseConfig);
+const fs=firebase.firestore();
+const store={
+  addMenu:d=>fs.collection('menu').add(d),
+  delMenu:id=>fs.collection('menu').doc(id).delete(),
+  addOrder:d=>fs.collection('orders').add(d),
+  confirm:id=>fs.collection('orders').doc(id).update({status:'confirmed'})
+};
+fs.collection('menu').orderBy('ts').onSnapshot(s=>{menu=s.docs.map(d=>({id:d.id,...d.data()}));renderAll()},e=>console.error(e));
+fs.collection('orders').orderBy('ts','desc').onSnapshot(s=>{orders=s.docs.map(d=>({id:d.id,...d.data()}));renderAll()},e=>console.error(e));
+$('modeNote').textContent='';
+
+/* ---------- render ---------- */
+function renderAll(){ renderMenu(); renderCart(); renderAdmin(); }
+function renderMenu(){
+  $('menuGrid').innerHTML=menu.length?menu.map(m=>`<div class="dish"><img src="${esc(m.img)}" alt="${esc(m.name)}"><div class="in"><h3>${esc(m.name)}</h3><div class="row"><span class="price">${money(m.price)}</span><button class="btn sm" data-add="${m.id}">Add</button></div></div></div>`).join(''):'<div class="empty" style="grid-column:1/-1">Our chef is preparing the menu. Please check back soon.</div>';
+}
+function cartItems(){return Object.entries(cart).map(([id,q])=>({m:menu.find(x=>x.id===id),q})).filter(x=>x.m)}
+function renderCart(){
+  const it=cartItems(), n=it.reduce((a,x)=>a+x.q,0), t=it.reduce((a,x)=>a+x.q*x.m.price,0);
+  $('cartN').textContent=n;
+  $('cartList').innerHTML=it.length?it.map(x=>`<div class="li"><img src="${esc(x.m.img)}" alt=""><div class="g"><b>${esc(x.m.name)}</b><div class="price">${money(x.m.price)}</div></div><div class="q"><button data-dec="${x.m.id}">−</button>${x.q}<button data-inc="${x.m.id}">+</button></div></div>`).join('')+`<p style="text-align:right;margin:14px 0;font-size:1.1rem">Total: <b class="price">${money(t)}</b></p>`:'<p class="empty">Your cart is empty.</p>';
+  $('checkout').style.display=it.length?'block':'none';
+}
+function renderAdmin(){
+  $('t-items').innerHTML=menu.length?menu.map(m=>`<div class="li"><img src="${esc(m.img)}" alt=""><div class="g"><b>${esc(m.name)}</b><div class="price">${money(m.price)}</div></div><button class="btn ghost sm" data-del="${m.id}">Remove</button></div>`).join(''):'<p class="empty">No items yet.</p>';
+  const p=orders.filter(o=>o.status==='pending').length;
+  $('pendN').textContent=p?'('+p+')':'';
+  $('t-orders').innerHTML=orders.length?orders.map(o=>`<div class="ord ${o.status}"><div style="display:flex;justify-content:space-between;gap:8px"><b>${esc(o.customer)} · ${esc(o.phone)}</b><span class="tag ${o.status}">${o.status.toUpperCase()}</span></div><div style="color:var(--mute);font-size:.85rem">${esc(o.where)}${o.note?' · “'+esc(o.note)+'”':''}</div><ul style="margin:8px 0 8px 18px">${o.items.map(i=>`<li>${i.qty} × ${esc(i.name)} — ${money(i.qty*i.price)}</li>`).join('')}</ul><div style="display:flex;justify-content:space-between;align-items:center"><b class="price">Total ${money(o.total)}</b>${o.status==='pending'?`<button class="btn sm" data-conf="${o.id}">Confirm Order</button>`:''}</div></div>`).join(''):'<p class="empty">No orders yet.</p>';
+}
+
+/* ---------- events ---------- */
+const open=id=>$(id).classList.add('on'), close=id=>$(id).classList.remove('on');
+function toast(t){const e=$('toast');e.textContent=t;e.style.display='block';setTimeout(()=>e.style.display='none',2600)}
+document.addEventListener('click',async e=>{
+  const t=e.target.closest('button,[data-close],.shield'); if(!t)return;
+  if(t.dataset.close!==undefined){t.closest('.ov').classList.remove('on')}
+  if(t.dataset.add){cart[t.dataset.add]=(cart[t.dataset.add]||0)+1;renderCart();toast('Added to cart')}
+  if(t.dataset.inc){cart[t.dataset.inc]++;renderCart()}
+  if(t.dataset.dec){if(--cart[t.dataset.dec]<=0)delete cart[t.dataset.dec];renderCart()}
+  if(t.dataset.del&&confirm('Remove this item?'))store.delMenu(t.dataset.del);
+  if(t.dataset.conf)store.confirm(t.dataset.conf);
+  if(t.dataset.tab){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('on',b===t));['add','items','orders'].forEach(k=>$('t-'+k).style.display=k===t.dataset.tab?'block':'none')}
+});
+$('cartBtn').onclick=()=>{renderCart();open('cartOv')};
+$('shield').onclick=()=>{ if(LS.get('ek_remember')===true){open('adminOv')} else {$('pw').value='';$('pwErr').textContent='';open('loginOv');setTimeout(()=>$('pw').focus(),50)} };
+function login(){
+  if($('pw').value===PASS){ if($('remember').checked)LS.set('ek_remember',true); close('loginOv'); open('adminOv'); }
+  else $('pwErr').textContent='Incorrect password.';
+}
+$('loginBtn').onclick=login; $('pw').onkeydown=e=>{if(e.key==='Enter')login()};
+$('logout').onclick=()=>{LS.set('ek_remember',false);close('adminOv')};
+
+$('fImg').onchange=e=>{
+  const f=e.target.files[0]; if(!f)return;
+  const r=new FileReader();
+  r.onload=()=>{const im=new Image();im.onload=()=>{
+    const s=Math.min(1,700/Math.max(im.width,im.height)),c=document.createElement('canvas');
+    c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+    imgData=c.toDataURL('image/jpeg',.72);$('prev').src=imgData;$('prev').style.display='block';
+  };im.src=r.result};r.readAsDataURL(f);
+};
+$('addBtn').onclick=async()=>{
+  const name=$('fName').value.trim(), price=parseFloat($('fPrice').value);
+  if(!imgData||!name||isNaN(price)){$('fErr').textContent='Please add a picture, name and price.';return}
+  $('fErr').textContent='';
+  try{await store.addMenu({name,price,img:imgData,ts:Date.now()})}catch(e){$('fErr').textContent='Could not save: '+(e.message||'permission denied');return}
+  imgData='';$('fName').value='';$('fPrice').value='';$('fImg').value='';$('prev').style.display='none';toast('Item added to menu');
+};
+$('placeBtn').onclick=async()=>{
+  const it=cartItems(), customer=$('cName').value.trim(), phone=$('cPhone').value.trim(), where=$('cWhere').value.trim();
+  if(!customer||!phone||!where){$('cErr').textContent='Please fill in your name, phone and table/address.';return}
+  const items=it.map(x=>({name:x.m.name,price:x.m.price,qty:x.q})), total=items.reduce((a,x)=>a+x.qty*x.price,0);
+  try{await store.addOrder({customer,phone,where,note:$('cNote').value.trim(),items,total,status:'pending',ts:Date.now()})}
+  catch(e){$('cErr').textContent='Could not send order: '+(e.message||'permission denied');return}
+  cart={};['cName','cPhone','cWhere','cNote'].forEach(i=>$(i).value='');$('cErr').textContent='';renderCart();close('cartOv');toast('Order placed! We’ll confirm shortly.');
+};
+</script>
+</body>
+</html>
